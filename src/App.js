@@ -25,10 +25,6 @@ class Bird {
   }
 
   update() {
-    /*this.velocity = this.velocity + this.gravity;
-    if (this.velocity > 1) {
-      this.velocity =  1;
-    }*/
     this.gravity = this.gravity + this.velocity;
     this.gravity = Math.min(5, this.gravity);
     this.y = this.y + this.gravity;
@@ -114,6 +110,7 @@ class App extends Component {
       pipe.update();
     });
     this.pipes = this.pipes.filter(pipe => !pipe.isDead);
+    this.pipes = this.pipes.filter(pipe => !pipe.isDead);
 
     this.birds.forEach(bird => {
       bird.update();
@@ -130,8 +127,9 @@ class App extends Component {
     let gameOver = false;
     this.birds.forEach(bird => {
       this.pipes.forEach(pipe => {
-        if (bird.x > pipe.x && bird.x < pipe.x + pipe.width &&
-          bird.y > pipe.y && bird.y < pipe.y + pipe.height) {
+        if (bird.y < 0 || bird.y > HEIGHT || (
+          bird.x > pipe.x && bird.x < pipe.x + pipe.width &&
+          bird.y > pipe.y && bird.y < pipe.y + pipe.height)) {
           gameOver = true;
         }
       });
@@ -161,6 +159,9 @@ class App extends Component {
           style={{ marginTop: '24px', border: '1px solid #c3c3c3' }}
         >
         </canvas>
+        <div onClick={() => this.setState({})}>
+          {this.frameCount}
+        </div>
       </div>
     );
   }
