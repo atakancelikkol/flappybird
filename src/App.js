@@ -80,7 +80,7 @@ class App extends Component {
     const ctx = this.getCtx();
     this.pipes = this.generatePipes();
     this.birds = [new Bird(ctx)];
-    setInterval(this.gameLoop, 1000 / FPS);
+    this.loop = setInterval(this.gameLoop, 1000 / FPS);
   }
 
   onKeyDown = (event) => {
@@ -119,24 +119,24 @@ class App extends Component {
       bird.update();
     });
 
-
+    if (this.isGameOver()) {
+      alert('Game Over');
+      clearInterval(this.loop);
+    }
 
   }
 
   isGameOver = () => {
+    let gameOver = false;
     this.birds.forEach(bird => {
       this.pipes.forEach(pipe => {
-        const pipeTopLeft = [pipe.x, pipe.y];
-        const pipeTopRight = [pipe.x + pipe.width, pipe.y];
-        const pipeBottomLeft = [pipe.x, pipe.y + pipe.height];
-        const pipeBottomRight = [pipe.x + pipe.width, pipe.y + pipe.height];
-
-        if (true) {
-
-          return true;
+        if (bird.x > pipe.x && bird.x < pipe.x + pipe.width &&
+          bird.y > pipe.y && bird.y < pipe.y + pipe.height) {
+          gameOver = true;
         }
       });
     });
+    return gameOver;
   }
 
   draw() {
